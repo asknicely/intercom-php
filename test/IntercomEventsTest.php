@@ -1,30 +1,24 @@
 <?php
 
-use Intercom\IntercomEvents;
-use Intercom\IntercomClient;
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware;
+namespace Intercom\Test;
 
-class IntercomEventsTest extends PHPUnit_Framework_TestCase
+use Intercom\IntercomEvents;
+
+class IntercomEventsTest extends TestCase
 {
     public function testEventCreate()
     {
-        $stub = $this->getMockBuilder('Intercom\IntercomClient')->disableOriginalConstructor()->getMock();
-        $stub->method('post')->willReturn('foo');
+        $this->client->method('post')->willReturn('foo');
 
-        $users = new IntercomEvents($stub);
-        $this->assertEquals('foo', $users->create([]));
+        $users = new IntercomEvents($this->client);
+        $this->assertSame('foo', $users->create([]));
     }
 
     public function testEventsGet()
     {
-        $stub = $this->getMockBuilder('Intercom\IntercomClient')->disableOriginalConstructor()->getMock();
-        $stub->method('get')->willReturn('foo');
+        $this->client->method('get')->willReturn('foo');
 
-        $users = new IntercomEvents($stub);
-        $this->assertEquals('foo', $users->getEvents([]));
+        $users = new IntercomEvents($this->client);
+        $this->assertSame('foo', $users->getEvents([]));
     }
 }

@@ -1,55 +1,60 @@
 <?php
 
-use Intercom\IntercomCompanies;
-use Intercom\IntercomClient;
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware;
+namespace Intercom\Test;
 
-class IntercomCompaniesTest extends PHPUnit_Framework_TestCase
+use Intercom\IntercomCompanies;
+
+class IntercomCompaniesTest extends TestCase
 {
     public function testCompanyCreate()
     {
-        $stub = $this->getMockBuilder('Intercom\IntercomClient')->disableOriginalConstructor()->getMock();
-        $stub->method('post')->willReturn('foo');
+        $this->client->method('post')->willReturn('foo');
 
-        $companies = new IntercomCompanies($stub);
-        $this->assertEquals('foo', $companies->create([]));
+        $companies = new IntercomCompanies($this->client);
+        $this->assertSame('foo', $companies->create([]));
     }
 
     public function testCompanyUpdate()
     {
-        $stub = $this->getMockBuilder('Intercom\IntercomClient')->disableOriginalConstructor()->getMock();
-        $stub->method('post')->willReturn('foo');
+        $this->client->method('post')->willReturn('foo');
 
-        $companies = new IntercomCompanies($stub);
-        $this->assertEquals('foo', $companies->update([]));
+        $companies = new IntercomCompanies($this->client);
+        $this->assertSame('foo', $companies->update([]));
     }
 
     public function testCompanyGet()
     {
-        $stub = $this->getMockBuilder('Intercom\IntercomClient')->disableOriginalConstructor()->getMock();
-        $stub->method('get')->willReturn('foo');
+        $this->client->method('get')->willReturn('foo');
 
-        $companies = new IntercomCompanies($stub);
-        $this->assertEquals('foo', $companies->getCompanies([]));
+        $companies = new IntercomCompanies($this->client);
+        $this->assertSame('foo', $companies->getCompanies([]));
     }
 
     public function testCompanyPath()
     {
-        $stub = $this->getMockBuilder('Intercom\IntercomClient')->disableOriginalConstructor()->getMock();
-        $users = new IntercomCompanies($stub);
-        $this->assertEquals('companies/foo', $users->companyPath("foo"));
+        $users = new IntercomCompanies($this->client);
+        $this->assertSame('companies/foo', $users->companyPath("foo"));
     }
 
     public function testCompanyGetById()
     {
-        $stub = $this->getMockBuilder('Intercom\IntercomClient')->disableOriginalConstructor()->getMock();
-        $stub->method('get')->willReturn('foo');
+        $this->client->method('get')->willReturn('foo');
 
-        $users = new IntercomCompanies($stub);
-        $this->assertEquals('foo', $users->getCompany("foo"));
+        $users = new IntercomCompanies($this->client);
+        $this->assertSame('foo', $users->getCompany("foo"));
+    }
+
+    public function testCompanyGetUsers()
+    {
+        $this->client->method('get')->willReturn('foo');
+
+        $companies = new IntercomCompanies($this->client);
+        $this->assertSame('foo', $companies->getCompanyUsers("foo"));
+    }
+
+    public function testCompanyUsersPath()
+    {
+        $users = new IntercomCompanies($this->client);
+        $this->assertSame('companies/foo/users', $users->companyUsersPath("foo"));
     }
 }

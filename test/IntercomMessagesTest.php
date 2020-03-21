@@ -1,21 +1,16 @@
 <?php
 
-use Intercom\IntercomMessages;
-use Intercom\IntercomClient;
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware;
+namespace Intercom\Test;
 
-class IntercomMessagesTest extends PHPUnit_Framework_TestCase
+use Intercom\IntercomMessages;
+
+class IntercomMessagesTest extends TestCase
 {
     public function testMessageCreate()
     {
-        $stub = $this->getMockBuilder('Intercom\IntercomClient')->disableOriginalConstructor()->getMock();
-        $stub->method('post')->willReturn('foo');
+        $this->client->method('post')->willReturn('foo');
 
-        $messages = new IntercomMessages($stub);
-        $this->assertEquals('foo', $messages->create([]));
+        $messages = new IntercomMessages($this->client);
+        $this->assertSame('foo', $messages->create([]));
     }
 }

@@ -1,39 +1,56 @@
 <?php
 
-use Intercom\IntercomUsers;
-use Intercom\IntercomClient;
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware;
+namespace Intercom\Test;
 
-class IntercomUsersTest extends PHPUnit_Framework_TestCase
+use Intercom\IntercomUsers;
+
+class IntercomUsersTest extends TestCase
 {
     public function testUserCreate()
     {
-        $stub = $this->getMockBuilder('Intercom\IntercomClient')->disableOriginalConstructor()->getMock();
-        $stub->method('post')->willReturn('foo');
+        $this->client->method('post')->willReturn('foo');
 
-        $users = new IntercomUsers($stub);
-        $this->assertEquals('foo', $users->create([]));
+        $users = new IntercomUsers($this->client);
+        $this->assertSame('foo', $users->create([]));
     }
 
     public function testUserUpdate()
     {
-        $stub = $this->getMockBuilder('Intercom\IntercomClient')->disableOriginalConstructor()->getMock();
-        $stub->method('post')->willReturn('foo');
+        $this->client->method('post')->willReturn('foo');
 
-        $users = new IntercomUsers($stub);
-        $this->assertEquals('foo', $users->update([]));
+        $users = new IntercomUsers($this->client);
+        $this->assertSame('foo', $users->update([]));
     }
 
     public function testUserGet()
     {
-        $stub = $this->getMockBuilder('Intercom\IntercomClient')->disableOriginalConstructor()->getMock();
-        $stub->method('get')->willReturn('foo');
+        $this->client->method('get')->willReturn('foo');
 
-        $users = new IntercomUsers($stub);
-        $this->assertEquals('foo', $users->getUsers([]));
+        $users = new IntercomUsers($this->client);
+        $this->assertSame('foo', $users->getUsers([]));
+    }
+
+    public function testArchiveUser()
+    {
+        $this->client->method('delete')->willReturn('foo');
+
+        $users = new IntercomUsers($this->client);
+        $this->assertSame('foo', $users->archiveUser(''));
+    }
+
+    public function testDeleteUser()
+    {
+        $this->client->method('delete')->willReturn('foo');
+
+        $users = new IntercomUsers($this->client);
+        $this->assertSame('foo', $users->deleteUser(''));
+    }
+
+    public function testPermanentlyDeleteUser()
+    {
+        $this->client->method('post')->willReturn('foo');
+
+        $users = new IntercomUsers($this->client);
+        $this->assertSame('foo', $users->permanentlyDeleteUser(''));
     }
 }

@@ -2,31 +2,18 @@
 
 namespace Intercom;
 
-class IntercomConversations
+use Http\Client\Exception;
+use stdClass;
+
+class IntercomConversations extends IntercomResource
 {
-
-    /**
-     * @var IntercomClient
-     */
-    private $client;
-
-    /**
-     * IntercomConversations constructor.
-     *
-     * @param IntercomClient $client
-     */
-    public function __construct($client)
-    {
-        $this->client = $client;
-    }
-
     /**
      * Returns list of Conversations.
      *
      * @see    https://developers.intercom.io/reference#list-conversations
      * @param  array $options
-     * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return stdClass
+     * @throws Exception
      */
     public function getConversations($options)
     {
@@ -38,8 +25,9 @@ class IntercomConversations
      *
      * @see    https://developers.intercom.io/reference#get-a-single-conversation
      * @param  string $id
-     * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @param  array  $options
+     * @return stdClass
+     * @throws Exception
      */
     public function getConversation($id, $options = [])
     {
@@ -53,8 +41,8 @@ class IntercomConversations
      * @see    https://developers.intercom.io/reference#replying-to-a-conversation
      * @param  string $id
      * @param  array  $options
-     * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return stdClass
+     * @throws Exception
      */
     public function replyToConversation($id, $options)
     {
@@ -67,8 +55,8 @@ class IntercomConversations
      *
      * @see    https://developers.intercom.io/reference#replying-to-users-last-conversation
      * @param  array $options
-     * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return stdClass
+     * @throws Exception
      */
     public function replyToLastConversation($options)
     {
@@ -81,8 +69,8 @@ class IntercomConversations
      *
      * @see    https://developers.intercom.io/reference#marking-a-conversation-as-read
      * @param  string $id
-     * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return stdClass
+     * @throws Exception
      */
     public function markConversationAsRead($id)
     {
