@@ -1,15 +1,16 @@
 <?php
 
+namespace Intercom\Test;
+
 use Intercom\IntercomCounts;
 
-class IntercomCountsTest extends PHPUnit_Framework_TestCase
+class IntercomCountsTest extends TestCase
 {
     public function testCountsList()
     {
-        $stub = $this->getMockBuilder('Intercom\IntercomClient')->disableOriginalConstructor()->getMock();
-        $stub->method('get')->willReturn('foo');
+        $this->client->method('get')->willReturn('foo');
 
-        $counts = new IntercomCounts($stub);
-        $this->assertEquals('foo', $counts->getCounts([]));
+        $counts = new IntercomCounts($this->client);
+        $this->assertSame('foo', $counts->getCounts([]));
     }
 }
